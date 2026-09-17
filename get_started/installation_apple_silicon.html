@@ -506,9 +506,9 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-run-from-a-hosted-installer">Method 2: Run from a hosted installer</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-3-manual-configuration">Method 3: Manual Configuration</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-ffmpeg-7">1. Install FFmpeg 7</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-environment-and-install">2. Create a virtual environment and install</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-the-runtime">3. Verify the runtime</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-ffmpeg-7">Install FFmpeg 7</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-environment-and-install">Create a virtual environment and install</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-the-runtime">Verify the runtime</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-failures">Common failures</a></li>
@@ -683,7 +683,7 @@ use it only when that trade-off is acceptable:</p>
 <h2>Method 3: Manual Configuration<a class="headerlink" href="#method-3-manual-configuration" title="Link to this heading">#</a></h2>
 <p>If you prefer not to use <code class="docutils literal notranslate"><span class="pre">install.sh</span></code>, set up the environment by hand.</p>
 <section id="install-ffmpeg-7">
-<h3>1. Install FFmpeg 7<a class="headerlink" href="#install-ffmpeg-7" title="Link to this heading">#</a></h3>
+<h3>Install FFmpeg 7<a class="headerlink" href="#install-ffmpeg-7" title="Link to this heading">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>ffmpeg@7
 <span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>brew<span class="w"> </span>--prefix<span class="w"> </span>ffmpeg@7<span class="k">)</span><span class="s2">/lib</span><span class="si">${</span><span class="nv">DYLD_LIBRARY_PATH</span><span class="p">:+:</span><span class="nv">$DYLD_LIBRARY_PATH</span><span class="si">}</span><span class="s2">"</span>
 </pre></div>
@@ -693,7 +693,7 @@ FFmpeg 7 and DYLD_LIBRARY_PATH above for
 details.</p>
 </section>
 <section id="create-a-virtual-environment-and-install">
-<h3>2. Create a virtual environment and install<a class="headerlink" href="#create-a-virtual-environment-and-install" title="Link to this heading">#</a></h3>
+<h3>Create a virtual environment and install<a class="headerlink" href="#create-a-virtual-environment-and-install" title="Link to this heading">#</a></h3>
 <p>Create one virtual environment for both repositories, then install the pinned
 SGLang tag from source with its <code class="docutils literal notranslate"><span class="pre">all_mps</span></code> dependencies before installing
 SGLang-Omni:</p>
@@ -713,7 +713,7 @@ it if none is required. This installs MLX through SGLang; it does not install
 or use the <code class="docutils literal notranslate"><span class="pre">mlx-audio</span></code> package.</p>
 </section>
 <section id="verify-the-runtime">
-<h3>3. Verify the runtime<a class="headerlink" href="#verify-the-runtime" title="Link to this heading">#</a></h3>
+<h3>Verify the runtime<a class="headerlink" href="#verify-the-runtime" title="Link to this heading">#</a></h3>
 <p>Before downloading a model, verify both Metal and FFmpeg loading:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SGLANG_USE_MLX</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
 <span class="s">import mlx.core as mx</span>
@@ -786,9 +786,9 @@ checkpoint, and the exact <code class="docutils literal notranslate"><span class
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-run-from-a-hosted-installer">Method 2: Run from a hosted installer</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-3-manual-configuration">Method 3: Manual Configuration</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-ffmpeg-7">1. Install FFmpeg 7</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-environment-and-install">2. Create a virtual environment and install</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-the-runtime">3. Verify the runtime</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-ffmpeg-7">Install FFmpeg 7</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-environment-and-install">Create a virtual environment and install</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-the-runtime">Verify the runtime</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-failures">Common failures</a></li>
