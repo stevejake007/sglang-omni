@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.5" />
-    <meta name="docbuild:last-update" content="Sep 16, 2026"/>
+    <meta name="docbuild:last-update" content="Sep 17, 2026"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -497,7 +497,7 @@
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon">Apple Silicon</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon-mlx-mps">🍎 Apple Silicon (MLX/MPS)</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlx">MLX</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#torch-mps">Torch/MPS</a></li>
 </ul>
@@ -548,7 +548,11 @@ It uses a Qwen2.5-0.5B backbone with FSQ speech tokens (vocab = 6561 + 200 speci
 speech tokenizer. It supports zero-shot voice cloning, cross-lingual synthesis, and instruction-based style control. The model produces 24 kHz speech at a rate of 25 Hz token frame rate through the <code class="docutils literal notranslate"><span class="pre">preprocessing</span> <span class="pre">→</span> <span class="pre">tts_engine</span> <span class="pre">→</span> <span class="pre">vocoder</span></code> pipeline and the OpenAI-compatible <code class="docutils literal notranslate"><span class="pre">/v1/audio/speech</span></code> endpoint.</p>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
-<p>Install <code class="docutils literal notranslate"><span class="pre">sglang-omni</span></code> from source as in <a class="reference internal" href="../get_started/installation.html"><span class="std std-doc">Installation</span></a>.</p>
+<p>Install <code class="docutils literal notranslate"><span class="pre">sglang-omni</span></code> for your platform:</p>
+<ul class="simple">
+<li><p><strong>NVIDIA CUDA / general</strong> — <a class="reference internal" href="../get_started/installation.html"><span class="std std-doc">Installation</span></a></p></li>
+<li><p><strong>Apple Silicon</strong> — <a class="reference internal" href="#../get_started/installation_mps.md"><span class="xref myst">Installation — Apple Silicon</span></a></p></li>
+</ul>
 <p>Fun-CosyVoice3 needs <code class="docutils literal notranslate"><span class="pre">sox</span></code> and a few extra Python packages. From the repository root, install the extra against <strong>this checkout</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>sox
 uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[fun-cosyvoice3]"</span>
@@ -579,23 +583,22 @@ git<span class="w"> </span>-C<span class="w"> </span><span class="si">${</span><
 </pre></div>
 </div>
 </section>
-<section id="apple-silicon">
-<h2>Apple Silicon<a class="headerlink" href="#apple-silicon" title="Link to this heading">#</a></h2>
-<p>On Apple Silicon, install the optional
-Fun-CosyVoice3 extra with the repository installer, then expose Homebrew’s
-keg-only FFmpeg libraries to TorchCodec:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>sox
-<span class="nv">SGLANG_OMNI_EXTRAS</span><span class="o">=</span>fun-cosyvoice3<span class="w"> </span>./install.sh
-<span class="nb">source</span><span class="w"> </span>.venv-apple/bin/activate
-<span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>brew<span class="w"> </span>--prefix<span class="w"> </span>ffmpeg@7<span class="k">)</span><span class="s2">/lib</span><span class="si">${</span><span class="nv">DYLD_LIBRARY_PATH</span><span class="p">:+:</span><span class="nv">$DYLD_LIBRARY_PATH</span><span class="si">}</span><span class="s2">"</span>
-</pre></div>
-</div>
-<p>Keep the official checkpoint as <code class="docutils literal notranslate"><span class="pre">--model-path</span></code>; it supplies the ONNX
-preprocessing assets. The MLX path additionally needs the converted speech
-model artifact, which contains the Qwen2, Flow, and HiFT weights. <code class="docutils literal notranslate"><span class="pre">mlx-audio</span></code>
-is not a runtime dependency.</p>
+<section id="apple-silicon-mlx-mps">
+<h2>🍎 Apple Silicon (MLX/MPS)<a class="headerlink" href="#apple-silicon-mlx-mps" title="Link to this heading">#</a></h2>
 <section id="mlx">
 <h3>MLX<a class="headerlink" href="#mlx" title="Link to this heading">#</a></h3>
+<p>This installs MLX through SGLang. It does not install or use the <code class="docutils literal notranslate"><span class="pre">mlx-audio</span></code>
+package. Before downloading a model, verify both Metal and FFmpeg loading:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SGLANG_USE_MLX</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
+<span class="s">import mlx.core as mx</span>
+<span class="s">from torchcodec.decoders import AudioDecoder</span>
+
+<span class="s">assert mx.metal.is_available()</span>
+<span class="s">print("MLX Metal and TorchCodec FFmpeg loading are available")</span>
+<span class="s">PY</span>
+</pre></div>
+</div>
+<p>Starts a CosyVoice3 TTS service with MLX backend</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SGLANG_USE_MLX</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>sgl-omni<span class="w"> </span>serve<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--model-path<span class="w"> </span>FunAudioLLM/Fun-CosyVoice3-0.5B-2512<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--tts-engine.factory.mlx_model_path<span class="w"> </span><span class="se">\</span>
@@ -1283,7 +1286,7 @@ in sync if you change the hop):</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon">Apple Silicon</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon-mlx-mps">🍎 Apple Silicon (MLX/MPS)</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlx">MLX</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#torch-mps">Torch/MPS</a></li>
 </ul>
@@ -1349,7 +1352,7 @@ By SGLang-Omni Team
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 16, 2026.
+  Last updated on Sep 17, 2026.
   <br/>
 </p>
   </div>

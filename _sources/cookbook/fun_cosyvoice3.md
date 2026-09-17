@@ -6,7 +6,10 @@ speech tokenizer. It supports zero-shot voice cloning, cross-lingual synthesis, 
 
 ## Prerequisites
 
-Install `sglang-omni` from source as in [Installation](../get_started/installation.md).
+Install `sglang-omni` for your platform:
+
+- **NVIDIA CUDA / general** — [Installation](../get_started/installation.md)
+- **Apple Silicon** — [Installation — Apple Silicon](../get_started/installation_mps.md)
 
 Fun-CosyVoice3 needs `sox` and a few extra Python packages. From the repository root, install the extra against **this checkout**:
 
@@ -47,25 +50,24 @@ sgl-omni serve \
   --port 8000
 ```
 
-## Apple Silicon
-
-On Apple Silicon, install the optional
-Fun-CosyVoice3 extra with the repository installer, then expose Homebrew's
-keg-only FFmpeg libraries to TorchCodec:
-
-```bash
-brew install sox
-SGLANG_OMNI_EXTRAS=fun-cosyvoice3 ./install.sh
-source .venv-apple/bin/activate
-export DYLD_LIBRARY_PATH="$(brew --prefix ffmpeg@7)/lib${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
-```
-
-Keep the official checkpoint as `--model-path`; it supplies the ONNX
-preprocessing assets. The MLX path additionally needs the converted speech
-model artifact, which contains the Qwen2, Flow, and HiFT weights. `mlx-audio`
-is not a runtime dependency.
+## 🍎 Apple Silicon (MLX/MPS)
 
 ### MLX
+
+This installs MLX through SGLang. It does not install or use the `mlx-audio`
+package. Before downloading a model, verify both Metal and FFmpeg loading:
+
+```bash
+SGLANG_USE_MLX=1 python - <<'PY'
+import mlx.core as mx
+from torchcodec.decoders import AudioDecoder
+
+assert mx.metal.is_available()
+print("MLX Metal and TorchCodec FFmpeg loading are available")
+PY
+```
+
+Starts a CosyVoice3 TTS service with MLX backend
 
 ```bash
 SGLANG_USE_MLX=1 sgl-omni serve \
