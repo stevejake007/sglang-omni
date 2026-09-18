@@ -59,7 +59,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.5" />
-    <meta name="docbuild:last-update" content="Sep 17, 2026"/>
+    <meta name="docbuild:last-update" content="Sep 18, 2026"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -496,7 +496,10 @@
             </div>
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlx-0-32-2-fully-supports">MLX(0.32.2) fully supports</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-using-the-install-sh-script-recommended">Method 1: Using the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> Script (recommended)</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qwen3-asr">Qwen3-ASR</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fun-cosyvoice3">Fun-Cosyvoice3</a></li>
@@ -505,12 +508,6 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-run-from-a-hosted-installer">Method 2: Run from a hosted installer</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-3-manual-configuration">Method 3: Manual Configuration</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-ffmpeg-7">Install FFmpeg 7</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-environment-and-install">Create a virtual environment and install</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-the-runtime">Verify the runtime</a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-failures">Common failures</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
 </ul>
@@ -537,6 +534,8 @@ page linked from there.</p>
 </div></blockquote>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<section id="mlx-0-32-2-fully-supports">
+<h3>MLX(0.32.2) fully supports<a class="headerlink" href="#mlx-0-32-2-fully-supports" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>macOS 14 or newer</strong> on <code class="docutils literal notranslate"><span class="pre">arm64</span></code> (Apple Silicon). The pinned
 <code class="docutils literal notranslate"><span class="pre">torch==2.13.0</span></code>, <code class="docutils literal notranslate"><span class="pre">torchvision==0.28.0</span></code>, and <code class="docutils literal notranslate"><span class="pre">torchcodec==0.15.0</span></code> wheels are
@@ -546,6 +545,7 @@ Homebrew’s bootstrapper; install it yourself from <a class="reference external
 if needed.</p></li>
 <li><p><strong>Python 3.12</strong> (the installer creates an isolated <code class="docutils literal notranslate"><span class="pre">uv</span></code> venv with Python 3.12).</p></li>
 </ul>
+</section>
 </section>
 <section id="method-1-using-the-install-sh-script-recommended">
 <h2>Method 1: Using the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> Script (recommended)<a class="headerlink" href="#method-1-using-the-install-sh-script-recommended" title="Link to this heading">#</a></h2>
@@ -679,52 +679,6 @@ use it only when that trade-off is acceptable:</p>
 <p>For a fork or an internal mirror, set <code class="docutils literal notranslate"><span class="pre">SGLANG_OMNI_REPO</span></code> and
 <code class="docutils literal notranslate"><span class="pre">SGLANG_OMNI_REF</span></code> explicitly.</p>
 </section>
-<section id="method-3-manual-configuration">
-<h2>Method 3: Manual Configuration<a class="headerlink" href="#method-3-manual-configuration" title="Link to this heading">#</a></h2>
-<p>If you prefer not to use <code class="docutils literal notranslate"><span class="pre">install.sh</span></code>, set up the environment by hand.</p>
-<section id="install-ffmpeg-7">
-<h3>Install FFmpeg 7<a class="headerlink" href="#install-ffmpeg-7" title="Link to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>ffmpeg@7
-<span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>brew<span class="w"> </span>--prefix<span class="w"> </span>ffmpeg@7<span class="k">)</span><span class="s2">/lib</span><span class="si">${</span><span class="nv">DYLD_LIBRARY_PATH</span><span class="p">:+:</span><span class="nv">$DYLD_LIBRARY_PATH</span><span class="si">}</span><span class="s2">"</span>
-</pre></div>
-</div>
-<p>Do not replace <code class="docutils literal notranslate"><span class="pre">ffmpeg&#64;7</span></code> with the unversioned <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> formula. See
-FFmpeg 7 and DYLD_LIBRARY_PATH above for
-details.</p>
-</section>
-<section id="create-a-virtual-environment-and-install">
-<h3>Create a virtual environment and install<a class="headerlink" href="#create-a-virtual-environment-and-install" title="Link to this heading">#</a></h3>
-<p>Create one virtual environment for both repositories, then install the pinned
-SGLang tag from source with its <code class="docutils literal notranslate"><span class="pre">all_mps</span></code> dependencies before installing
-SGLang-Omni:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>v0.5.19<span class="w"> </span>https://github.com/sgl-project/sglang.git
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/sgl-project/sglang-omni.git
-uv<span class="w"> </span>venv<span class="w"> </span>-p<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span>sglang-omni/.venv-apple
-<span class="nb">source</span><span class="w"> </span>sglang-omni/.venv-apple/bin/activate
-<span class="nb">cd</span><span class="w"> </span>sglang
-cp<span class="w"> </span>python/pyproject_other.toml<span class="w"> </span>python/pyproject.toml
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">"python[all_mps]"</span>
-<span class="nb">cd</span><span class="w"> </span>../sglang-omni
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[&lt;model-extra&gt;]"</span>
-</pre></div>
-</div>
-<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;model-extra&gt;</span></code> with the extra named in your model’s cookbook, or omit
-it if none is required. This installs MLX through SGLang; it does not install
-or use the <code class="docutils literal notranslate"><span class="pre">mlx-audio</span></code> package.</p>
-</section>
-<section id="verify-the-runtime">
-<h3>Verify the runtime<a class="headerlink" href="#verify-the-runtime" title="Link to this heading">#</a></h3>
-<p>Before downloading a model, verify both Metal and FFmpeg loading:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SGLANG_USE_MLX</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
-<span class="s">import mlx.core as mx</span>
-<span class="s">from torchcodec.decoders import AudioDecoder</span>
-<span class="s">assert mx.metal.is_available()</span>
-<span class="s">print("MLX Metal and TorchCodec FFmpeg loading are available")</span>
-<span class="s">PY</span>
-</pre></div>
-</div>
-</section>
-</section>
 <section id="common-failures">
 <h2>Common failures<a class="headerlink" href="#common-failures" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -776,7 +730,10 @@ checkpoint, and the exact <code class="docutils literal notranslate"><span class
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlx-0-32-2-fully-supports">MLX(0.32.2) fully supports</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-using-the-install-sh-script-recommended">Method 1: Using the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> Script (recommended)</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qwen3-asr">Qwen3-ASR</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fun-cosyvoice3">Fun-Cosyvoice3</a></li>
@@ -785,12 +742,6 @@ checkpoint, and the exact <code class="docutils literal notranslate"><span class
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-run-from-a-hosted-installer">Method 2: Run from a hosted installer</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-3-manual-configuration">Method 3: Manual Configuration</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-ffmpeg-7">Install FFmpeg 7</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-environment-and-install">Create a virtual environment and install</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-the-runtime">Verify the runtime</a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-failures">Common failures</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
 </ul>
@@ -826,7 +777,7 @@ By SGLang-Omni Team
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 17, 2026.
+  Last updated on Sep 18, 2026.
   <br/>
 </p>
   </div>

@@ -61,7 +61,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.5" />
-    <meta name="docbuild:last-update" content="Sep 17, 2026"/>
+    <meta name="docbuild:last-update" content="Sep 18, 2026"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -587,17 +587,6 @@ git<span class="w"> </span>-C<span class="w"> </span><span class="si">${</span><
 <h2>🍎 Apple Silicon (MLX/MPS)<a class="headerlink" href="#apple-silicon-mlx-mps" title="Link to this heading">#</a></h2>
 <section id="mlx">
 <h3>MLX<a class="headerlink" href="#mlx" title="Link to this heading">#</a></h3>
-<p>This installs MLX through SGLang. It does not install or use the <code class="docutils literal notranslate"><span class="pre">mlx-audio</span></code>
-package. Before downloading a model, verify both Metal and FFmpeg loading:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SGLANG_USE_MLX</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
-<span class="s">import mlx.core as mx</span>
-<span class="s">from torchcodec.decoders import AudioDecoder</span>
-
-<span class="s">assert mx.metal.is_available()</span>
-<span class="s">print("MLX Metal and TorchCodec FFmpeg loading are available")</span>
-<span class="s">PY</span>
-</pre></div>
-</div>
 <p>Starts a CosyVoice3 TTS service with MLX backend</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SGLANG_USE_MLX</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>sgl-omni<span class="w"> </span>serve<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--model-path<span class="w"> </span>FunAudioLLM/Fun-CosyVoice3-0.5B-2512<span class="w"> </span><span class="se">\</span>
@@ -1352,7 +1341,7 @@ By SGLang-Omni Team
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 17, 2026.
+  Last updated on Sep 18, 2026.
   <br/>
 </p>
   </div>
