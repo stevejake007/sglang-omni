@@ -207,7 +207,7 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Get Started</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../get_started/installation.html">🚀 Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../get_started/installation_npu.html">Installation — Ascend NPU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/installation_npu.html">🚀 Installation — Ascend NPU</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../get_started/installation_xpu.html">🚀 Installation — Intel XPU</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../get_started/installation_cpu.html">🚀 Installation — Intel CPU</a></li>
 </ul>
@@ -498,7 +498,8 @@
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon-mlx-mlp">🍎 Apple Silicon (MLX/MLP)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon-mlx-mlp">🍎 Apple Silicon (MLX/MLP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🍎 Apple Silicon (MLX/MLP)</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlx">MLX</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#torch-mps">Torch/MPS</a></li>
 </ul>
@@ -551,8 +552,43 @@
 </div>
 <section id="apple-silicon-mlx-mlp">
 <h3>🍎 Apple Silicon (MLX/MLP)<a class="headerlink" href="#apple-silicon-mlx-mlp" title="Link to this heading">#</a></h3>
+</section>
+<section id="id1">
+<h3>🍎 Apple Silicon (MLX/MLP)<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <section id="mlx">
 <h4>MLX<a class="headerlink" href="#mlx" title="Link to this heading">#</a></h4>
+<p>The Apple Silicon path requires macOS 14 or newer, Python 3.12, Homebrew, and
+SGLang’s MLX runtime. Audio decoding also requires Homebrew’s versioned FFmpeg 7 formula:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>ffmpeg@7
+<span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>brew<span class="w"> </span>--prefix<span class="w"> </span>ffmpeg@7<span class="k">)</span><span class="s2">/lib</span><span class="si">${</span><span class="nv">DYLD_LIBRARY_PATH</span><span class="p">:+:</span><span class="nv">$DYLD_LIBRARY_PATH</span><span class="si">}</span><span class="s2">"</span>
+</pre></div>
+</div>
+<p>Do not replace <code class="docutils literal notranslate"><span class="pre">ffmpeg&#64;7</span></code> with the unversioned <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> formula. The latter
+currently installs FFmpeg 9, while Apple installs <code class="docutils literal notranslate"><span class="pre">torchcodec==0.15.0</span></code>, which
+supports FFmpeg 4 through 8. Because <code class="docutils literal notranslate"><span class="pre">ffmpeg&#64;7</span></code> is keg-only, its library
+directory must also be present in <code class="docutils literal notranslate"><span class="pre">DYLD_LIBRARY_PATH</span></code> whenever the server starts.</p>
+<p>macOS may remove <code class="docutils literal notranslate"><span class="pre">DYLD_*</span></code> variables when a SIP-protected system executable
+launches the server. Set <code class="docutils literal notranslate"><span class="pre">DYLD_LIBRARY_PATH</span></code> on the final <code class="docutils literal notranslate"><span class="pre">sgl-omni</span></code> process;
+for example, place <code class="docutils literal notranslate"><span class="pre">/usr/bin/env</span> <span class="pre">DYLD_LIBRARY_PATH=...</span></code> after wrappers such as
+<code class="docutils literal notranslate"><span class="pre">/usr/bin/time</span></code>. Test a compressed input such as M4A or MP3, since WAV decoding
+can succeed without loading FFmpeg.</p>
+<p>Create one virtual environment for both repositories, then install the pinned
+SGLang tag from source with its <code class="docutils literal notranslate"><span class="pre">all_mps</span></code> dependencies before installing
+SGLang-Omni:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>v0.5.20<span class="w"> </span>https://github.com/sgl-project/sglang.git
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/sgl-project/sglang-omni.git
+
+uv<span class="w"> </span>venv<span class="w"> </span>-p<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span>sglang-omni/.venv-apple
+<span class="nb">source</span><span class="w"> </span>sglang-omni/.venv-apple/bin/activate
+
+<span class="nb">cd</span><span class="w"> </span>sglang
+cp<span class="w"> </span>python/pyproject_other.toml<span class="w"> </span>python/pyproject.toml
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">"python[all_mps]"</span>
+
+<span class="nb">cd</span><span class="w"> </span>../sglang-omni
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
 <p>This installs MLX through SGLang. It does not install or use the <code class="docutils literal notranslate"><span class="pre">mlx-audio</span></code>
 package. Before downloading a model, verify both Metal and FFmpeg loading:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SGLANG_USE_MLX</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
@@ -1161,7 +1197,8 @@ native and whole-upload requests at 60 seconds.</p></li>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon-mlx-mlp">🍎 Apple Silicon (MLX/MLP)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon-mlx-mlp">🍎 Apple Silicon (MLX/MLP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🍎 Apple Silicon (MLX/MLP)</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlx">MLX</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#torch-mps">Torch/MPS</a></li>
 </ul>
