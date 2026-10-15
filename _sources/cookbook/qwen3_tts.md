@@ -13,7 +13,7 @@ endpoint.
 Install `sglang-omni` by following [Installation](../get_started/installation.md).
 
 Qwen3-TTS Base uses the upstream `qwen-tts` package. Install it without
-dependencies so the SGLang-Omni Transformers 5.12 / SGLang 0.5.20 stack remains
+dependencies so the SGLang-Omni Transformers 5.12 / SGLang 0.5.21 stack remains
 in place:
 
 ```bash
@@ -42,7 +42,7 @@ factories (`create_causal_mask` and friends), which now spell `input_embeds` as
 `inputs_embeds` and no longer accept `cache_position`. SGLang-Omni patches these
 differences in
 `sglang_omni/models/qwen3_tts/compat.py`, which every Qwen3-TTS entry point
-applies before importing `qwen_tts`. The pinned Transformers 5.12 / SGLang 0.5.20
+applies before importing `qwen_tts`. The pinned Transformers 5.12 / SGLang 0.5.21
 stack is therefore the supported configuration, not a workaround.
 
 If you hit a `TypeError` raised from inside `qwen_tts`, do not resolve it by
@@ -134,6 +134,27 @@ HTTP **503** (`The request queue is full.`) before preprocessing, or later
 if the AR waiting queue or request-build backlog is full. Qwen3-TTS
 defaults to 4 request-build workers with pending depth 16.
 
+A finished request no longer counts toward that capacity, but its streamed
+audio waits in the API process until the client reads it.
+`--stream_delivery.max_total_backlog_bytes` caps the undelivered stream bytes
+all requests may hold together, per API process (default `1073741824`,
+1 GiB; `none` turns it off).
+
+A client that reads at least as fast as audio is generated holds almost
+nothing in the API process. A slower client holds the audio that is
+generated but not yet in its socket buffers; 24 kHz float32 audio is
+about 96 kB per second. This includes a client that reads at playback
+speed while generation runs faster than real time, once its socket
+buffers are full.
+
+Over the cap, the streams whose readers have been idle longest fail first,
+until the total fits. A failed stream's generation is aborted if it is
+still running. SSE (`stream_format=sse`) and WebSocket clients get an error
+event with `The request queue is full.`; a raw PCM stream is closed early.
+New requests are not refused because of the cap. `/health` reports the
+backlog under `stream_delivery`, including the held bytes, open streams and
+failed streams.
+
 ### Prefill CUDA graphs
 
 Every Qwen3-TTS checkpoint (Base, CustomVoice, VoiceDesign) defaults to a
@@ -152,7 +173,7 @@ graph per token bucket; the codec head and sampling still run outside it.
 them. Each backend is accepted only on models that declare it, so a stage that
 has not adopted `full` still rejects it. `full` also needs a prefill attention
 backend that captures an ordinary prefill batch, `fa3` or `flashinfer` in
-SGLang 0.5.20: with any other backend the CustomVoice default stays
+SGLang 0.5.21: with any other backend the CustomVoice default stays
 `breakable`, and an explicit `full` fails at startup. SGLang logs the full
 prefill backend as experimental and its own compatibility rules never
 auto-disable it, so the generation batch policy's checks are what guard it
@@ -354,6 +375,7 @@ with open("output.wav", "wb") as f:
 Non-streaming responses include `X-Finish-Reason: stop` after codec EOS or
 `X-Finish-Reason: length` when generation reaches `max_new_tokens`. A `length`
 response still contains decodable audio, but the utterance may be incomplete.
+Models that do not report how generation ended send `X-Finish-Reason: unknown`.
 Batch responses expose the same value as each item's `finish_reason`.
 
 #### Leading silence in x-vector mode
@@ -464,9 +486,10 @@ first chunk, so their audio arrives complete in a single final flush.
 
 Streaming decodes run on the stateful incremental codec by default: each
 follow-up chunk decodes only its fresh frames against per-stream state held in
-a preallocated arena, steady-state cohorts replay CUDA graphs whose decode step
-is `torch.compile`d, and the follow-up workers collect for 4 ms. Startup spends
-about a minute compiling the steady shapes. The left-context decoder remains
+a preallocated arena, and the follow-up workers collect for 4 ms. On NVIDIA, AMD
+and MUSA GPUs steady-state cohorts also decode asynchronously on a priority stream
+and replay CUDA graphs whose decode step is `torch.compile`d, which costs about
+a minute of startup compiling the steady shapes. The left-context decoder remains
 available as a rollback:
 
 ```yaml
@@ -476,12 +499,23 @@ stages:
       enable_stateful_codec_decoder: false
 ```
 
-`incremental_codec_cuda_graph`, `incremental_codec_compile` and
+`incremental_codec_cuda_graph`, `incremental_codec_compile`, `async_decode` and
 `followup_batch_wait_ms` are the individual switches. Measured on one H100
 80GB at 20 requests per second, three client seeds of roughly 1200 requests
 each: the default path holds 0.6% to 2.3% of streams underrun against 20.9%
 for the left-context decoder, with first playable audio at 55 to 58 ms
 against 82 to 89 ms.
+
+Intel XPU, Ascend NPU, CPU and Apple MPS decode synchronously by default. To opt
+in on Intel GPUs, follow the
+[Qwen3-TTS XPU recipe](../get_started/installation_xpu.md#qwen3-tts-text-to-speech-single-xpu).
+
+Each follow-up batch sorts the stateful decoder's cohorts, and the rows within
+each, by playback deadline: the nearest cohort launches first and its nearest
+rows fill the first graph-sized group. Left-context decodes keep queue order.
+The follow-up workers also commit each in-flight cohort as soon as its decode
+has finished, checked at the top of the worker loop and before each launch,
+instead of at the next drain.
 
 #### First-audio chunk ramp
 

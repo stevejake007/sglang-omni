@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=3476fdda"></script>
+    <script src="../_static/documentation_options.js?v=7ed07c24"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -60,8 +60,8 @@
     <link rel="prev" title="LLaDA2.0-Uni" href="llada2_uni.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.7" />
-    <meta name="docbuild:last-update" content="Oct 13, 2026"/>
+  <meta name="docsearch:version" content="0.1.8" />
+    <meta name="docbuild:last-update" content="Oct 15, 2026"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -215,8 +215,10 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cookbook</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="higgs_tts.html">Higgs TTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nemotron_diarization.html">Nemotron 3 Diarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="voxtral_tts.html">Voxtral TTS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fishaudio_s2_pro.html">Fish Audio S2-Pro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fishaudio_drama3.html">Fish Audio Drama 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qwen3_tts.html">Qwen3 TTS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ming_tts.html">Ming-Omni-TTS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="moss_tts.html">MOSS-TTS</a></li>
@@ -227,10 +229,11 @@
 <li class="toctree-l1"><a class="reference internal" href="qwen3_asr.html">Qwen3-ASR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fun_asr.html">Fun-ASR-Nano</a></li>
 <li class="toctree-l1"><a class="reference internal" href="arkasr.html">ARK-ASR-3B</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nemotron3_5_asr.html">Nemotron 3.5 ASR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="moss_transcribe_diarize.html">MOSS-Transcribe-Diarize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="whisper_asr.html">Whisper ASR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qwen3_omni.html">Qwen3-Omni</a></li>
-<li class="toctree-l1"><a class="reference internal" href="minicpm_o.html">MiniCPM-o Reference Audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="minicpm_o.html">MiniCPM-o</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ming_omni.html">Ming-Omni</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nemotron_voicechat.html">NemotronLabs VoiceChat</a></li>
 <li class="toctree-l1"><a class="reference internal" href="personaplex.html">PersonaPlex</a></li>
@@ -265,7 +268,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../developer_reference/reference_encode_service.html">Reference Encode Service</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developer_reference/profiler.html">Request-level profiler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developer_reference/qwen3_asr_concurrency_profile.html">Qwen3-ASR High-Concurrency Benchmark and Bottleneck Profile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/full_duplex_bench.html">Full-Duplex-Bench runbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/full_duplex_metrics.html">Full-Duplex-Bench v1.0 unified metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/tts_bench.html">TTS benchmark runbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/asr_bench.html">ASR benchmark runbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/omni_offline_bench.html">MiniCPM-o offline benchmark runbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developer_reference/rl_admin_control.html">RL Admin Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/mlx.html">MLX Path</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_reference/ci_labels.html">CI Workflows and Labels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developer_reference/bump_version.html">Bumping the SGLang Pin</a></li>
 </ul>
 
@@ -501,7 +511,7 @@
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon-mlx-mps">🍎 Apple Silicon (MLX/MPS)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon">Apple Silicon</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlx">MLX</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#torch-mps">Torch/MPS</a></li>
 </ul>
@@ -552,11 +562,7 @@ It uses a Qwen2.5-0.5B backbone with FSQ speech tokens (vocab = 6561 + 200 speci
 speech tokenizer. It supports zero-shot voice cloning, cross-lingual synthesis, and instruction-based style control. The model produces 24 kHz speech at a rate of 25 Hz token frame rate through the <code class="docutils literal notranslate"><span class="pre">preprocessing</span> <span class="pre">→</span> <span class="pre">tts_engine</span> <span class="pre">→</span> <span class="pre">vocoder</span></code> pipeline and the OpenAI-compatible <code class="docutils literal notranslate"><span class="pre">/v1/audio/speech</span></code> endpoint.</p>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
-<p>Install <code class="docutils literal notranslate"><span class="pre">sglang-omni</span></code> for your platform:</p>
-<ul class="simple">
-<li><p><strong>NVIDIA CUDA / general</strong> — <a class="reference internal" href="../get_started/installation.html"><span class="std std-doc">Installation</span></a></p></li>
-<li><p><strong>Apple Silicon</strong> — <a class="reference internal" href="#../get_started/installation_mps.md"><span class="xref myst">Installation — Apple Silicon</span></a></p></li>
-</ul>
+<p>Install <code class="docutils literal notranslate"><span class="pre">sglang-omni</span></code> from source as in <a class="reference internal" href="../get_started/installation.html"><span class="std std-doc">Installation</span></a>.</p>
 <p>Fun-CosyVoice3 needs <code class="docutils literal notranslate"><span class="pre">sox</span></code> and a few extra Python packages. From the repository root, install the extra against <strong>this checkout</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>sox
 uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[fun-cosyvoice3]"</span>
@@ -587,11 +593,23 @@ git<span class="w"> </span>-C<span class="w"> </span><span class="si">${</span><
 </pre></div>
 </div>
 </section>
-<section id="apple-silicon-mlx-mps">
-<h2>🍎 Apple Silicon (MLX/MPS)<a class="headerlink" href="#apple-silicon-mlx-mps" title="Link to this heading">#</a></h2>
+<section id="apple-silicon">
+<h2>Apple Silicon<a class="headerlink" href="#apple-silicon" title="Link to this heading">#</a></h2>
+<p>On Apple Silicon, install the optional
+Fun-CosyVoice3 extra with the repository installer, then expose Homebrew’s
+keg-only FFmpeg libraries to TorchCodec:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>sox
+<span class="nv">SGLANG_OMNI_EXTRAS</span><span class="o">=</span>fun-cosyvoice3<span class="w"> </span>./install.sh
+<span class="nb">source</span><span class="w"> </span>.venv-apple/bin/activate
+<span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>brew<span class="w"> </span>--prefix<span class="w"> </span>ffmpeg@7<span class="k">)</span><span class="s2">/lib</span><span class="si">${</span><span class="nv">DYLD_LIBRARY_PATH</span><span class="p">:+:</span><span class="nv">$DYLD_LIBRARY_PATH</span><span class="si">}</span><span class="s2">"</span>
+</pre></div>
+</div>
+<p>Keep the official checkpoint as <code class="docutils literal notranslate"><span class="pre">--model-path</span></code>; it supplies the ONNX
+preprocessing assets. The MLX path additionally needs the converted speech
+model artifact, which contains the Qwen2, Flow, and HiFT weights. <code class="docutils literal notranslate"><span class="pre">mlx-audio</span></code>
+is not a runtime dependency.</p>
 <section id="mlx">
 <h3>MLX<a class="headerlink" href="#mlx" title="Link to this heading">#</a></h3>
-<p>Starts a CosyVoice3 TTS service with MLX backend</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SGLANG_USE_MLX</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>sgl-omni<span class="w"> </span>serve<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--model-path<span class="w"> </span>FunAudioLLM/Fun-CosyVoice3-0.5B-2512<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--tts-engine.factory.mlx_model_path<span class="w"> </span><span class="se">\</span>
@@ -611,6 +629,7 @@ sgl-omni<span class="w"> </span>serve<span class="w"> </span><span class="se">\<
 <span class="w">  </span>--port<span class="w"> </span><span class="m">8000</span>
 </pre></div>
 </div>
+<p>For Intel GPUs, follow the <a class="reference internal" href="../get_started/installation_xpu.html#fun-cosyvoice3-text-to-speech-single-xpu"><span class="std std-ref">Fun-CosyVoice3 XPU recipe</span></a>.</p>
 </section>
 </section>
 <section id="synthesizing-speech">
@@ -806,7 +825,7 @@ sgl-omni<span class="w"> </span>serve<span class="w"> </span><span class="se">\<
 <td><p>Top-k sampling</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">repetition_penalty</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">1.1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1.21</span></code></p></td>
 <td><p>Repetition penalty</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">max_new_tokens</span></code></p></td>
@@ -846,7 +865,7 @@ flow_merge_pad_budget_percent = 25
 </section>
 <section id="vocoder-configuration">
 <h3>Vocoder Configuration<a class="headerlink" href="#vocoder-configuration" title="Link to this heading">#</a></h3>
-<p>Vocoder configuration controls batching, precision, and acceleration. The scheduler accepts <code class="docutils literal notranslate"><span class="pre">max_batch_size</span></code> (16) and <code class="docutils literal notranslate"><span class="pre">max_batch_wait_ms</span></code> (30) to tune batch assembly. Flow uses <code class="docutils literal notranslate"><span class="pre">dtype</span></code> (bfloat16) for autocast, while HiFT uses <code class="docutils literal notranslate"><span class="pre">hift_dtype</span></code> (float32), independent of Flow; bfloat16 shows no speedup on H200 and reduces fidelity. Buffered Flow CUDA Graphs and DiT <code class="docutils literal notranslate"><span class="pre">torch.compile</span></code> are on by default. <code class="docutils literal notranslate"><span class="pre">enable_flow_estimator_trt</span></code> stays opt-in; enabling it turns the DiT compile default off, and enabling both explicitly is rejected.</p>
+<p>Vocoder configuration controls batching, precision, and acceleration. The scheduler accepts <code class="docutils literal notranslate"><span class="pre">max_batch_size</span></code> (16) and <code class="docutils literal notranslate"><span class="pre">max_batch_wait_ms</span></code> (30) to tune batch assembly. Flow uses <code class="docutils literal notranslate"><span class="pre">dtype</span></code> (bfloat16) for autocast, while HiFT uses <code class="docutils literal notranslate"><span class="pre">hift_dtype</span></code> (float32), independent of Flow; bfloat16 shows no speedup on H200 and reduces fidelity. Buffered Flow CUDA Graphs and DiT <code class="docutils literal notranslate"><span class="pre">torch.compile</span></code> are on by default. Streaming hops over the Flow prefix cache replay their Euler solve from CUDA graphs captured per frame tier (<code class="docutils literal notranslate"><span class="pre">max_batch_size</span></code> rows of the longest hop, on the decode batch ladder); a step above the largest tier runs eagerly, and <code class="docutils literal notranslate"><span class="pre">enable_flow_prefix_cuda_graph=false</span></code> turns the graphs off. A stream’s final step replays its whole-history Euler solve from CUDA graphs captured per frame tier with <code class="docutils literal notranslate"><span class="pre">max_batch_size</span></code> row slots, on SGLang’s prefill graph ladder up to <code class="docutils literal notranslate"><span class="pre">flow_batch_admission_frames</span></code>. A final step above the largest tier runs eagerly, and <code class="docutils literal notranslate"><span class="pre">enable_flow_whole_history_cuda_graph=false</span></code> turns these graphs off. <code class="docutils literal notranslate"><span class="pre">enable_flow_estimator_trt</span></code> stays opt-in; enabling it turns the DiT compile default off, and enabling both explicitly is rejected.</p>
 <p>The TTS engine stage accepts <code class="docutils literal notranslate"><span class="pre">onnx_intra_op_threads</span></code> (16) for the speech tokenizer and speaker encoder ONNX sessions. Preprocessing takes <code class="docutils literal notranslate"><span class="pre">max_concurrency</span></code> (8) to limit concurrent reference conditioning requests.</p>
 </section>
 <section id="torch-compile-for-the-dit-backbone">
@@ -1168,6 +1187,7 @@ in sync if you change the hop):</p>
 </tbody>
 </table>
 </div>
+<p>Sampling is repetition-aware, as in upstream CosyVoice: a sampled speech token that already appears among the last 10 generated tokens is masked and redrawn once from the full distribution at the request temperature. Greedy requests (<code class="docutils literal notranslate"><span class="pre">top_k</span> <span class="pre">=</span> <span class="pre">1</span></code>) sample without the redraw.</p>
 </section>
 <section id="benchmarking">
 <h2>Benchmarking<a class="headerlink" href="#benchmarking" title="Link to this heading">#</a></h2>
@@ -1279,7 +1299,7 @@ in sync if you change the hop):</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon-mlx-mps">🍎 Apple Silicon (MLX/MPS)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apple-silicon">Apple Silicon</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlx">MLX</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#torch-mps">Torch/MPS</a></li>
 </ul>
@@ -1345,7 +1365,7 @@ By SGLang-Omni Team
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 13, 2026.
+  Last updated on Oct 15, 2026.
   <br/>
 </p>
   </div>

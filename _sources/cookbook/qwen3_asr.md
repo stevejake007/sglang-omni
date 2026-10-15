@@ -6,10 +6,7 @@ Qwen3-ASR does not support `/v1/audio/translations`; that endpoint returns HTTP 
 
 ## Prerequisites
 
-Install `sglang-omni` for your platform:
-
-- **NVIDIA CUDA / general** — [Installation](../get_started/installation.md)
-- **Apple Silicon** — [Installation — Apple Silicon](../get_started/installation_mps.md)
+Install `sglang-omni` by following [Installation](../get_started/installation.md), then download the model:
 
 ```bash
 MODEL_REVISION=7278e1e70fe206f11671096ffdd38061171dd6e5
@@ -20,11 +17,7 @@ MODEL_PATH="$(
 )"
 ```
 
-### 🍎 Apple Silicon (MLX/MLP)
-
-### 🍎 Apple Silicon (MLX/MLP)
-
-#### MLX
+### Apple Silicon (MLX)
 
 The Apple Silicon path requires macOS 14 or newer, Python 3.12, Homebrew, and
 SGLang's MLX runtime. Audio decoding also requires Homebrew's versioned FFmpeg 7 formula:
@@ -50,7 +43,7 @@ SGLang tag from source with its `all_mps` dependencies before installing
 SGLang-Omni:
 
 ```bash
-git clone --branch v0.5.20 https://github.com/sgl-project/sglang.git
+git clone --branch v0.5.21 https://github.com/sgl-project/sglang.git
 git clone https://github.com/sgl-project/sglang-omni.git
 
 uv venv -p 3.12 sglang-omni/.venv-apple
@@ -97,8 +90,6 @@ HTTP and SSE transcription interfaces below are the same as on CUDA;
 The Apple paths do not provide sampling penalties or token logprobs yet. MLX
 can batch multiple requests, but `max_running_requests=1` is recommended when
 single-request latency matters; increase it only when throughput is preferred.
-
-#### Torch/MPS
 
 To use the Torch MPS compatibility path instead, leave `SGLANG_USE_MLX` unset
 and pass an official PyTorch Qwen3-ASR checkpoint. It currently uses one device,
@@ -282,12 +273,19 @@ Partial results are full replacements, not append-only deltas:
   "type": "transcription.segment",
   "event_index": 7,
   "segment_id": 0,
+  "audio_start_ms": 0,
+  "audio_end_ms": 2000,
   "text": "hello wor",
   "is_final": false
 }
 ```
 
-A later event for the same `segment_id` replaces this text. An event with
+A later event for the same `segment_id` replaces this text. `audio_start_ms`
+and `audio_end_ms` are the span of input audio the text was decoded from.
+A partial can trail the audio already sent, since audio that arrives while it
+decodes is left to the next partial. `audio_start_ms` stays fixed for the
+segment, including segments opened by the 30 second boundary, which have no
+`input_audio_buffer.speech_started` event. An event with
 `is_final=true` is immutable. `transcription.completed` contains the joined
 text from all final segments.
 
