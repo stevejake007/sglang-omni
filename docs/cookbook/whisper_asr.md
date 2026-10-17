@@ -4,7 +4,7 @@ Whisper ASR checkpoints can be started through the OpenAI-compatible `/v1/audio/
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md), then download a Whisper checkpoint:
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md), then download a Whisper checkpoint:
 
 ```bash
 hf download openai/whisper-large-v3

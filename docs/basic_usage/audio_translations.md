@@ -8,7 +8,7 @@ HTTP 400 instead of silently transcribing.
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md),
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md),
 then download a multilingual Whisper checkpoint:
 
 ```bash

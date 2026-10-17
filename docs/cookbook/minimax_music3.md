@@ -19,7 +19,7 @@ It is not a TTS model with a music voice. Generation runs in two stages. A Qwen3
 
 ## Prerequisites
 
-Install `sglang-omni` from source as in [Installation](../get_started/installation.md).
+Install `sglang-omni` from source as in [Installation](../get_started/installation_cuda.md).
 
 ```bash
 git clone git@github.com:sgl-project/sglang-omni.git

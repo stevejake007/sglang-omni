@@ -50,7 +50,7 @@ flowchart LR
   ```
 
 - **SGLang-Omni**, installed using the
-  [installation guide](../get_started/installation.md), for running model
+  [installation guide](../get_started/installation_cuda.md), for running model
   workers.
 
 The Rust router is built from this repository as a separate binary. It routes

@@ -10,7 +10,7 @@ endpoint.
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md).
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md).
 
 Qwen3-TTS Base uses the upstream `qwen-tts` package. Install it without
 dependencies so the SGLang-Omni Transformers 5.12 / SGLang 0.5.21 stack remains

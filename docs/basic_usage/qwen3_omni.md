@@ -4,7 +4,7 @@ This guide uses [Qwen3-Omni](https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Inst
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md).
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md).
 
 ## Server Readiness
 

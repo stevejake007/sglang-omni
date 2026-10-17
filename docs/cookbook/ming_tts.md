@@ -24,7 +24,7 @@ converts the generated latent sequence into the final waveform with the Ming Aud
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md), then download
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md), then download
 the checkpoint:
 
 ```bash

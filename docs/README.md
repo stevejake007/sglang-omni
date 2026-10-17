@@ -28,5 +28,5 @@ PORT=8080 make serve
 ## Style
 
 - Prefer **Markdown** for cookbooks and usage guides. Use notebooks only when the example must be executed in docs CI.
-- Prefer relative links (`../get_started/installation.md`), not absolute docs URLs.
+- Prefer relative links (`../get_started/installation_cuda.md`), not absolute docs URLs.
 - Match existing launch / request examples in neighboring cookbooks.

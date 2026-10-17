@@ -6,7 +6,7 @@ Start with `sgl-omni serve` for Ming. The generic OmniServe entry point now know
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md), then make sure the Ming checkpoint is available:
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md), then make sure the Ming checkpoint is available:
 
 ```bash
 hf download inclusionAI/Ming-flash-omni-2.0

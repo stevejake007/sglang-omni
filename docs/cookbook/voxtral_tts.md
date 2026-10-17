@@ -9,7 +9,7 @@ and is served through the OpenAI-compatible `/v1/audio/speech` endpoint.
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md), then install the Voxtral-specific tokenizer and download the model:
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md), then install the Voxtral-specific tokenizer and download the model:
 
 ```bash
 # Voxtral preprocessing uses Mistral's Tekken tokenizer from mistral-common.

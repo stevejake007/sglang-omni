@@ -4,7 +4,7 @@ This guide uses [Fish Speech S2-Pro](https://huggingface.co/fishaudio/s2-pro) as
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md), then download the model:
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md), then download the model:
 
 ```bash
 hf download fishaudio/s2-pro

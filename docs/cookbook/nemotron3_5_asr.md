@@ -8,7 +8,7 @@ WebSocket session API.
 
 ## Prerequisites
 
-Follow [Installation](../get_started/installation.md), then run the examples
+Follow [Installation](../get_started/installation_cuda.md), then run the examples
 from the repository root. Use the repository's pinned Transformers version;
 the Nemotron compatibility implementation is included.
 

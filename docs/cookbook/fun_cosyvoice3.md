@@ -6,7 +6,7 @@ speech tokenizer. It supports zero-shot voice cloning, cross-lingual synthesis, 
 
 ## Prerequisites
 
-Install `sglang-omni` from source as in [Installation](../get_started/installation.md).
+Install `sglang-omni` from source as in [Installation](../get_started/installation_cuda.md).
 
 Fun-CosyVoice3 needs `sox` and a few extra Python packages. From the repository root, install the extra against **this checkout**:
 

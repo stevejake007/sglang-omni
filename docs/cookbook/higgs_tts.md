@@ -47,7 +47,7 @@ Win-rate (↑) per category on the Emergent TTS benchmark — judge preference v
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md), then download and serve the model:
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md), then download and serve the model:
 
 ```bash
 hf download bosonai/higgs-audio-v3-tts-4b

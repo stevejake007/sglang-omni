@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md).
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md).
 
 Fish Audio uses the Descript DAC codec, which is not included in the base
 `sglang-omni` package. From the SGLang-Omni repository root, install its

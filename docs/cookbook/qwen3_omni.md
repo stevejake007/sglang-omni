@@ -20,7 +20,7 @@ uv venv .venv -p 3.12 && source .venv/bin/activate
 uv pip install --prerelease=allow "sglang-omni==0.1.8"
 ```
 
-See [Installation](../get_started/installation.md) for Docker digests and source installs.
+See [Installation](../get_started/installation_cuda.md) for Docker digests and source installs.
 
 ## Server Configuration
 

@@ -1,7 +1,7 @@
 # 🚀 Installation — Intel XPU
 
 Installs `sglang-omni` for **Intel GPUs (XPU)**. The default
-[installation](./installation.md) pins CUDA-only wheels and would clobber a `torch+xpu` stack.
+[installation](./installation_cuda.md) pins CUDA-only wheels and would clobber a `torch+xpu` stack.
 Mirroring upstream SGLang ([Intel XPU docs](https://docs.sglang.io/docs/hardware-platforms/xpu),
 `docker/xpu.Dockerfile`), the XPU path uses a **separate `pyproject_xpu.toml`** plus the PyTorch
 XPU wheel index.

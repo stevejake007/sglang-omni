@@ -1,7 +1,7 @@
 # 🚀 Installation — Intel CPU
 
 Installs `sglang-omni` for **CPU-only inference**. The default
-[installation](./installation.md) targets CUDA, so this path uses the separate
+[installation](./installation_cuda.md) targets CUDA, so this path uses the separate
 [`pyproject_cpu.toml`](../../pyproject_cpu.toml) and the PyTorch CPU wheel index.
 
 > **`--no-build-isolation` is required** for the editable `sglang-omni` install.

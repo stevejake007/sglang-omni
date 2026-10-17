@@ -10,7 +10,7 @@
 
 ## Installation and Startup
 
-Detailed instructions are in [Installation](../get_started/installation.md). From the repository root:
+Detailed instructions are in [Installation](../get_started/installation_cuda.md). From the repository root:
 
 ```bash
 uv pip install --prerelease=allow -v -e ".[fishaudio]"

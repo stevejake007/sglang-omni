@@ -16,7 +16,7 @@ LLaDA2.0-Uni unifies multimodal understanding and generation into a simple Mask 
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md).
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md).
 
 ## Server Configuration
 

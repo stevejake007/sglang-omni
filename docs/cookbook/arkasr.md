@@ -14,7 +14,7 @@ ARK-ASR does not support `/v1/audio/translations`; that endpoint returns HTTP 40
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md), then download the model:
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md), then download the model:
 
 ```bash
 hf download AutoArk-AI/ARK-ASR-3B

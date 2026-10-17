@@ -17,7 +17,7 @@ Architecturally, MOSS-TTS-v1.5 is the `delay-pattern` counterpart to [MOSS-TTS-L
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md), then
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md), then
 download the model (public, no token required):
 
 ```bash

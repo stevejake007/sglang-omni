@@ -9,7 +9,7 @@
 
 ## Prerequisites
 
-Follow [Installation](../get_started/installation.md), then run from the repository root.
+Follow [Installation](../get_started/installation_cuda.md), then run from the repository root.
 
 Chat with speech output:
 

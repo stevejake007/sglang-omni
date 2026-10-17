@@ -1,57 +1,8 @@
-# 🚀 Installation
+# 🚀 Installation — Apple Silicon
 
-Current stable release: **v0.1.8** on [PyPI](https://pypi.org/project/sglang-omni/).
-
-Choose the path for your platform. Docker is recommended for NVIDIA CUDA —
-UCX, flash-attn, SGLang, and CUDA are prebuilt. Apple Silicon has a dedicated
-source installer below.
-
-> **Intel GPU (XPU)?** For Intel Arc GPUs, see [Installation — Intel XPU](./installation_xpu.md), which uses [`pyproject_xpu.toml`](../../pyproject_xpu.toml) + the PyTorch XPU wheel index instead of the CUDA-only pins below.
-
-> **Moore Threads GPU (MUSA):** For MUSA, see [Installation — MUSA](./installation_musa.md), which uses [`pyproject_musa.toml`](../../pyproject_musa.toml) on top of a SGLang MUSA environment.
-
-> **Intel CPU?** Also not this page. See [Installation — Intel CPU](./installation_cpu.md), which uses [`pyproject_cpu.toml`](../../pyproject_cpu.toml) + the PyTorch CPU wheel index.
-
-> **Ascend NPU?** See [Installation — Ascend NPU](./installation_npu.md) for the supported software stack, prerequisites, and installation helper.
-
-## 🐳 Option A: Docker (recommended)
-
-**1. Pull the image**
-
-```bash
-docker pull hongccc/sglang-omni:dev
-```
-
-Only the `dev` tag is published today. It moves with main — pin by digest for reproducible runs:
-
-```bash
-docker pull lmsysorg/sglang-omni@sha256:<digest>
-```
-
-**2. Run the container**
-
-```bash
-docker run -it \
-    --shm-size 32g \
-    --gpus all \
-    --ipc host \
-    --network host \
-    --privileged \
-    hongccc/sglang-omni:dev \
-    /bin/zsh
-```
-
-**3. Install `sglang-omni` inside the container**
-
-```bash
-pip install --upgrade pip
-pip install uv
-
-uv venv .venv -p 3.12
-source .venv/bin/activate
-
-uv pip install --prerelease=allow "sglang-omni==0.1.8"
-```
+Apple Silicon has a dedicated source installer for macOS 14 or newer on `arm64`.
+Docker is recommended for NVIDIA CUDA — see
+[Installation — CUDA](./installation_cuda.md).
 
 <a id="macos-apple-silicon"></a>
 
@@ -92,7 +43,9 @@ for `macosx_14_0_arm64`) and is intended for the Apple-Silicon Qwen3-ASR
 MLX/Torch-MPS paths and the
 [Fun-ASR Torch/MPS path](../cookbook/fun_asr.md#apple-silicon).
 Other platforms should use the
-Docker, manual, or Intel XPU instructions below. Common failures are a missing
+[Installation — CUDA](./installation_cuda.md), [Intel XPU](./installation_xpu.md),
+[MUSA](./installation_musa.md), [Intel CPU](./installation_cpu.md), or
+[Ascend NPU](./installation_npu.md) instructions. Common failures are a missing
 Homebrew/uv on `PATH`, an unavailable Python 3.12 toolchain, or forgetting the
 `DYLD_LIBRARY_PATH` export when starting an audio server.
 
@@ -123,41 +76,3 @@ For a fork or an internal mirror, set `SGLANG_OMNI_REPO` and
 `SGLANG_OMNI_REF` explicitly. The hosted mode stores the project checkout at
 `~/.cache/sglang-omni/sglang-omni-<ref>` by default; override it with
 `SGLANG_OMNI_PROJECT_DIR`.
-
-## 🛠️ Option C: Manual install
-
-Build prerequisites first:
-
-- **UCX 1.20.x** with CUDA + verbs — [upstream](https://github.com/openucx/ucx), or reuse flags in [`docker/Dockerfile`](../../docker/Dockerfile).
-- **flash-attn-4** `>=4.0.0b18`, matching `torch==2.13.0` and SGLang 0.5.21's `nvidia-cutlass-dsl` 4.6.2 pin.
-
-Then:
-
-```bash
-pip install --upgrade pip
-pip install uv
-
-uv venv .venv -p 3.12
-source .venv/bin/activate
-
-uv pip install --prerelease=allow "sglang-omni==0.1.8"
-```
-
-Latest on the index without a pin: `uv pip install --prerelease=allow sglang-omni`.
-
-### Install from source
-
-For development or unreleased changes:
-
-```bash
-git clone git@github.com:sgl-project/sglang-omni.git
-cd sglang-omni
-
-pip install --upgrade pip
-pip install uv
-
-uv venv .venv -p 3.12
-source .venv/bin/activate
-
-uv pip install --prerelease=allow -v -e .   # drop -e for a non-editable install
-```

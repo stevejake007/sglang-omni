@@ -11,7 +11,7 @@ vocoder` pipeline and is served through the OpenAI-compatible
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md).
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md).
 
 ZONOS2 uses the Descript DAC codec, which is not included in the base
 `sglang-omni` package. From the SGLang-Omni repository root, install its

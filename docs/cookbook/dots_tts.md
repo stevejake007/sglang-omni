@@ -25,7 +25,7 @@ For Intel GPUs, follow the [dots.tts XPU recipe](../get_started/installation_xpu
 
 ## Prerequisites
 
-Install `sglang-omni` by following [Installation](../get_started/installation.md), then download and launch the server:
+Install `sglang-omni` by following [Installation](../get_started/installation_cuda.md), then download and launch the server:
 
 ```bash
 hf download dots-studio/dots.tts-mf --revision c28105adc8228143392b4e346994ff613ee48a06

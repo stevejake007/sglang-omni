@@ -17,7 +17,7 @@ The released checkpoints use:
 
 ## Prerequisites
 
-Follow [Installation](../get_started/installation.md), then run from the repository root:
+Follow [Installation](../get_started/installation_cuda.md), then run from the repository root:
 
 ```bash
 python -m sglang_omni.cli serve --model-path tencent/AuK --port 8000
